@@ -2,11 +2,11 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
+    "rootDir": "./src",
     "outDir": "./dist",
-    "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["node"] 
+    "types": ["node"]
   },
-  "include": ["**/*.ts"]
+  "include": ["src/**/*"]
 }
