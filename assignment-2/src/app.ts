@@ -1,12 +1,12 @@
 // app.js
-import express, {Request, Responce} from "express"
+import express, {Request, Response} from "express"
 import { mockList } from "./mockData";
 
 const app = express();
 const PORT = 3000;
 
 // GET API to return mock data
-app.get('/api/items', (req: Request, res: Responce) => {
+app.get('/items', (req: Request, res: Response) => {
   res.json(mockList);
 });
 

@@ -9,3 +9,4 @@ export const mockList: Item[] = [
     { id: 2, name: "Item Two", category: "B" },
     { id: 3, name: "Item Three", category: "A" },
 ];
+
