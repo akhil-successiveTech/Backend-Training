@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-const SECRET_KEY = 'dummy-secret-key';
+const SECRET_KEY = 'secret-key';
 
 // Defined interface
 export interface AuthRequest extends Request {
@@ -16,6 +16,7 @@ export default function auth(req: AuthRequest, res: Response, next: NextFunction
   if (!token) {
     return res.status(401).json({ message: 'Token not provided' });
   }
+  // console.log(token);
   // Verifies with the secret key
   jwt.verify(token, SECRET_KEY, (err, user) => {
     if (err) {

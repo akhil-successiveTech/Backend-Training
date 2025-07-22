@@ -4,9 +4,12 @@ import { loggerMiddleware } from './middleware/logger';
 import errorHandler from './middleware/errorHandler';
 import customHeaderMiddleware from './middleware/custom';
 import { basicLimiter } from './middleware/rateLimitMiddleware';
+import { Request, Response, NextFunction } from 'express';
+import CreateError from "http-errors";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+// process learn
+const PORT = 3000;
 
 // Middleware setup
 app.use(express.json());
@@ -16,6 +19,11 @@ app.use(basicLimiter(3, 30000));
 
 // Routes
 app.use('/api', router);
+
+// Created for assignment-5 but not needed
+app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
+  next(CreateError(404, "Not Found"));
+})
 
 // Error handler
 app.use(errorHandler);
