@@ -10,9 +10,9 @@ import healthRoute from './routes/healthRoute';
 import { config } from './utils/config';
 import seedCountries from './seed/seedCountries';
 import { connectDB } from './database';
-
+import dotenv from 'dotenv';
 const app = express();
-// process learn
+dotenv.config();
 
 const PORT = config.port;
 const customHeader = new CustomHeaderMiddleware('Name', 'Akhil');
