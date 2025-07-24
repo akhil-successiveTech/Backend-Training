@@ -8,6 +8,8 @@ import { Request, Response, NextFunction } from 'express';
 import CreateError from "http-errors";
 import healthRoute from './routes/healthRoute';
 import { config } from './utils/config';
+import seedCountries from './seed/seedCountries';
+import { connectDB } from './database';
 
 const app = express();
 // process learn
@@ -36,6 +38,18 @@ app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
 app.use(ErrorHandler.handler);
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+connectDB()
+  .then(async () => {
+    // Runs the seedCountries condition
+    await seedCountries();
+    app.listen(PORT, () => {
+      console.log( `Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to connect to DB:', err);
 });
