@@ -1,38 +1,38 @@
 import { Router } from "express";
-import { getUsers} from "../controllers/UserController";
-import auth from "../middleware/authMiddleware";
-import { validateGeoLocation } from "../middleware/validateGeoLocation";
-import { validateUser } from "../middleware/validateUser";
-import { validateNumericQuery } from "../middleware/validateNumericQuery";
-import { firstMiddleware, secondMiddleware, thirdMiddleware } from '../middleware/middlewareChain';
+import UserController from "../controllers/UserController";
+import auth from "../middleware/AuthMiddleware";
+import validateGeoLocation  from "../middleware/ValidateGeoLocation";
+import ValidationUser from "../middleware/ValidateUser";
+import validateNumericQuery from "../middleware/ValidateNumericQuery";
+import { firstMiddleware, secondMiddleware, thirdMiddleware } from '../middleware/MiddlewareChain';
 
 const router = Router();
 
-router.get('/mock-users', getUsers);
+router.get('/mock-users', UserController.getUsers);
 // Applied auth middleware
-router.get('/mock-users/auth', auth ,getUsers);
+router.get('/mock-users/auth', auth.handler ,UserController.getUsers);
 // Applied multiple middlewares 
-router.get('/chain-example', firstMiddleware, secondMiddleware, thirdMiddleware)
+router.get('/chain-example', firstMiddleware.handler, secondMiddleware.handler, thirdMiddleware.handler)
 // To check the regional validation
-router.get('/secure', validateGeoLocation, (req, res) => {
+router.get('/secure', validateGeoLocation.handler, (req, res) => {
     res.send('Allowed region!');
   });
 // Register user validation
-router.post('/register', validateUser, (req, res) => {
+router.post('/register', ValidationUser.handler, (req, res) => {
     res.status(201).json({ message: 'User registered successfully!' });
 });
 // Login user validation
-router.post('/login', validateUser, (req, res) => {
+router.post('/login', ValidationUser.handler, (req, res) => {
     res.status(201).json({ message: 'User logged in successfully!' });
 });
 // Validation of queries
-router.post('/query', validateNumericQuery, (req, res) => {
+router.post('/query', validateNumericQuery.handler, (req, res) => {
     res.json({ message: 'Query parameters are valid!' });
 });
 
 // Scenario to generate possible error codes
 // Unauthorized
-router.get("/unauthorized", auth, (req, res) => {
+router.get("/unauthorized", auth.handler, (req, res) => {
     const authenticate = req.headers['authorization'];
     if (!authenticate) {
       return res.status(401).json({ error: "Unauthorized access" });
