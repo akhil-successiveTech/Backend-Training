@@ -17,9 +17,6 @@ const seedCountries = async () => {
   catch (error) {
     console.error("Seeding failed:", error);
   } 
-  finally {
-    await mongoose.disconnect();
-  }
 };
 
 export default seedCountries;

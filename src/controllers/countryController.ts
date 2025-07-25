@@ -3,6 +3,7 @@ import { Country } from "../models/Country";
 
 export const addCountry = async (req: Request, res: Response) => {
   try {
+    // console.log("Request body:", req.body); 
     const { name } = req.body;
     // Check that the country exists in the data
     const existing = await Country.findOne({ name: new RegExp(`^${name}$`, "i") });
