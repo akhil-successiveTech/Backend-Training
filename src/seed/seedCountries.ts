@@ -13,6 +13,7 @@ const seedCountries = async () => {
       ]);
       console.log("Countries seeded successfully.");
     }
+    // Catches the error
   catch (error) {
     console.error("Seeding failed:", error);
   } 

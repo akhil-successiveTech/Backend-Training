@@ -5,6 +5,8 @@ import validateGeoLocation  from "../middleware/ValidateGeoLocation";
 import ValidationUser from "../middleware/ValidateUser";
 import validateNumericQuery from "../middleware/ValidateNumericQuery";
 import { firstMiddleware, secondMiddleware, thirdMiddleware } from '../middleware/MiddlewareChain';
+import { validateCountry } from "../middleware/ValidateCountry";
+import { addCountry } from "../controllers/countryController";
 
 const router = Router();
 
@@ -29,6 +31,12 @@ router.post('/login', ValidationUser.handler, (req, res) => {
 router.post('/query', validateNumericQuery.handler, (req, res) => {
     res.json({ message: 'Query parameters are valid!' });
 });
+// Route for country validation 
+router.post('/countries', validateCountry, addCountry);
+
+// router.post('/users/signup', );
+
+// router.post('/users/login', );
 
 // Scenario to generate possible error codes
 // Unauthorized
@@ -58,5 +66,6 @@ router.get('/async-error',async (req, res, next) => {
       // Simulate async error
       await Promise.reject(new Error('Something went wrong asynchronously!'));
 });
+
 
 export default router;

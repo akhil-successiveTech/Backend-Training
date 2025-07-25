@@ -1,7 +1,6 @@
 import express from 'express';
 import router from './routes/userRoutes';
-import LoggerMiddleware from './middleware/LoggerMiddleware';
-import ErrorHandler from './middleware/ErrorHandler';
+import LoggerMiddleware from './middleware/LoggerMiddleware'; 
 import CustomHeaderMiddleware from './middleware/CustomHeaderMiddleware';
 import RateLimitMiddleware from './middleware/RateLimitMiddleware';
 import { Request, Response, NextFunction } from 'express';
@@ -11,6 +10,7 @@ import { config } from './utils/config';
 import seedCountries from './seed/seedCountries';
 import { connectDB } from './database';
 import dotenv from 'dotenv';
+import ErrorHandler from './middleware/ErrorHandler';
 const app = express();
 dotenv.config();
 
@@ -45,7 +45,9 @@ app.use(ErrorHandler.handler);
 connectDB()
   .then(async () => {
     // Runs the seedCountries condition
-    await seedCountries();
+    if(config.seed === "true"){
+      await seedCountries();
+    }
     app.listen(PORT, () => {
       console.log( `Server running on http://localhost:${PORT}`);
     });
