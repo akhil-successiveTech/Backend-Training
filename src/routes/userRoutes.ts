@@ -34,10 +34,6 @@ router.post('/query', validateNumericQuery.handler, (req, res) => {
 // Route for country validation 
 router.post('/countries', validateCountry, addCountry);
 
-// router.post('/users/signup', );
-
-// router.post('/users/login', );
-
 // Scenario to generate possible error codes
 // Unauthorized
 router.get("/unauthorized", auth.handler, (req, res) => {
