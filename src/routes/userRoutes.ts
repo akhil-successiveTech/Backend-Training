@@ -5,8 +5,10 @@ import validateGeoLocation  from "../middleware/ValidateGeoLocation";
 import ValidationUser from "../middleware/ValidateUser";
 import validateNumericQuery from "../middleware/ValidateNumericQuery";
 import { firstMiddleware, secondMiddleware, thirdMiddleware } from '../middleware/MiddlewareChain';
-import { validateCountry } from "../middleware/ValidateCountry";
-import { addCountry } from "../controllers/countryController";
+import { validateLogin } from "../middleware/LoginMiddleware";
+import { loginUser , signupUser} from "../controllers/AuthController";
+import { validateSignup } from "../middleware/SignupMiddleware";
+import { AdminCheck } from "../middleware/AdminMiddleware";
 
 const router = Router();
 
@@ -31,12 +33,16 @@ router.post('/login', ValidationUser.handler, (req, res) => {
 router.post('/query', validateNumericQuery.handler, (req, res) => {
     res.json({ message: 'Query parameters are valid!' });
 });
-// Route for country validation 
-router.post('/countries', validateCountry, addCountry);
-
-// router.post('/users/signup', );
-
-// router.post('/users/login', );
+// Signup user in database
+router.post('/users/signup', validateSignup, signupUser);
+// Login user in database
+router.post('/users/login', validateLogin, loginUser);
+// Admin route
+router.post('/users/admin', AdminCheck, (req, res) => {
+  return res.status(200).json({message: "Admin access granted!"})
+});
+// Only admin can use this router
+// router.post('/users/delete', checkRole);
 
 // Scenario to generate possible error codes
 // Unauthorized

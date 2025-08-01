@@ -7,7 +7,7 @@ import { Request, Response, NextFunction } from 'express';
 import CreateError from "http-errors";
 import healthRoute from './routes/healthRoute';
 import { config } from './utils/config';
-import seedCountries from './seed/seedCountries';
+import seedUsers from './seed/seedUsers';
 import { connectDB } from './database';
 import dotenv from 'dotenv';
 import ErrorHandler from './middleware/ErrorHandler';
@@ -46,7 +46,7 @@ connectDB()
   .then(async () => {
     // Runs the seedCountries condition
     if(config.seed === "true"){
-      await seedCountries();
+      await seedUsers();
     }
     app.listen(PORT, () => {
       console.log( `Server running on http://localhost:${PORT}`);
