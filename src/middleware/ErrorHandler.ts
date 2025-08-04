@@ -1,26 +1,23 @@
-import { Request, Response } from 'express';
-import { NextFunction } from 'express-serve-static-core';
+import { NextFunction, Request, Response } from 'express';
+
 // Interface for error
 interface CustomError extends Error {
   statusCode?: number;
 }
 // Interface for middleware
 interface Middleware{
-  handler(err: CustomError, req: Request, res: Response): void;
+  handler(err: CustomError, req: Request, res: Response,next:NextFunction): void;
 }
 // Class of middleware
 class ErrorHandler implements Middleware{
   public handler(err: CustomError, req: Request, res: Response){
     // Display error
     console.error('Error:', err.message);
-    // Set statuscode
-    const statusCode = err.statusCode || 500;
     // Set the responce in json format
-    res.status(statusCode).json({
-        error: {
-          message: err.message || 'Internal Server Error',
-          status: statusCode
-        }
+    res.status(500).json({
+      success:"false",
+      message:"Error is occured in ErrorHandler"
+       
     });
   }
 }

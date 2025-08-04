@@ -1,16 +1,19 @@
 import express from 'express';
 import router from './routes/userRoutes';
-import LoggerMiddleware from './middleware/LoggerMiddleware';
-import ErrorHandler from './middleware/ErrorHandler';
+import LoggerMiddleware from './middleware/LoggerMiddleware'; 
 import CustomHeaderMiddleware from './middleware/CustomHeaderMiddleware';
 import RateLimitMiddleware from './middleware/RateLimitMiddleware';
 import { Request, Response, NextFunction } from 'express';
 import CreateError from "http-errors";
 import healthRoute from './routes/healthRoute';
 import { config } from './utils/config';
+import seedCountries from './seed/seedCountries';
+import { connectDB } from './database';
+import dotenv from 'dotenv';
+import ErrorHandler from './middleware/ErrorHandler';
 
 const app = express();
-// process learn
+dotenv.config();
 
 const PORT = config.port;
 const customHeader = new CustomHeaderMiddleware('Name', 'Akhil');
@@ -36,6 +39,20 @@ app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
 app.use(ErrorHandler.handler);
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+connectDB()
+  .then(async () => {
+    // Runs the seedCountries condition
+    if(config.seed === "true"){
+      await seedCountries();
+    }
+    app.listen(PORT, () => {
+      console.log( `Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to connect to DB:', err);
 });
