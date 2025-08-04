@@ -1,24 +1,31 @@
 import express from 'express';
 import router from './routes/userRoutes';
-import { loggerMiddleware } from './middleware/logger';
-import errorHandler from './middleware/errorHandler';
-import customHeaderMiddleware from './middleware/custom';
-import { basicLimiter } from './middleware/rateLimitMiddleware';
+import LoggerMiddleware from './middleware/LoggerMiddleware';
+import ErrorHandler from './middleware/ErrorHandler';
+import CustomHeaderMiddleware from './middleware/CustomHeaderMiddleware';
+import RateLimitMiddleware from './middleware/RateLimitMiddleware';
 import { Request, Response, NextFunction } from 'express';
 import CreateError from "http-errors";
+import healthRoute from './routes/healthRoute';
+import { config } from './utils/config';
 
 const app = express();
 // process learn
-const PORT = 3000;
+
+const PORT = config.port;
+const customHeader = new CustomHeaderMiddleware('Name', 'Akhil');
+const RateLimit = new RateLimitMiddleware(3, 30000);
 
 // Middleware setup
 app.use(express.json());
-app.use(loggerMiddleware);
-app.use(customHeaderMiddleware("Akhil", "Dhawan"));
-app.use(basicLimiter(3, 30000));
+app.use(LoggerMiddleware.handler);
+app.use(customHeader.handler);
+app.use(RateLimit.handler);
 
 // Routes
 app.use('/api', router);
+// Health route
+app.use('/health', healthRoute);
 
 // Created for assignment-5 but not needed
 app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +33,7 @@ app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
 })
 
 // Error handler
-app.use(errorHandler);
+app.use(ErrorHandler.handler);
 
 // Start server
 app.listen(PORT, () => {

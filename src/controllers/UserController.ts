@@ -1,16 +1,15 @@
-import { getSeededUsers } from '../utils/seedData';
 import { Request, Response } from 'express';
+import { getSeededUsers } from '../utils/seedData';
+// Interface
+interface controller {
+  getUsers(req: Request, res: Response): void;
+}
+// Class of controller
+class UserController implements controller{
+  public getUsers(req: Request, res: Response): void {
+    const users = getSeededUsers();
+    res.status(200).json({ message: 'List of users', data: users });
+  }
+}
 
-//toget
-export const getUsers = (req: Request, res: Response) => {
-  const users = getSeededUsers();
-  res.status(200).send({ message: 'List of users' , data: users});
-};
-
-//topost
-export const createUser = (req: Request, res: Response) => {
-  const { name, email } = req.body;
-  console.log(name)
-
-  res.status(201).json({ message: 'User created', data: { name, email } });
-};
+export default new UserController();
