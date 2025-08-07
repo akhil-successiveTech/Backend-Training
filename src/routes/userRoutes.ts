@@ -33,6 +33,7 @@ router.post('/login', ValidationUser.handler, (req, res) => {
 router.post('/query', validateNumericQuery.handler, (req, res) => {
     res.json({ message: 'Query parameters are valid!' });
 });
+
 // Signup user in database
 router.post('/users/signup', validateSignup, signupUser);
 // Login user in database
@@ -43,6 +44,9 @@ router.post('/users/admin', AdminCheck, (req, res) => {
 });
 // Only admin can use this router
 // router.post('/users/delete', checkRole);
+// Route for country validation 
+router.post('/countries', validateCountry, addCountry);
+
 
 // Scenario to generate possible error codes
 // Unauthorized

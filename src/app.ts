@@ -11,6 +11,7 @@ import seedUsers from './seed/seedUsers';
 import { connectDB } from './database';
 import dotenv from 'dotenv';
 import ErrorHandler from './middleware/ErrorHandler';
+
 const app = express();
 dotenv.config();
 
