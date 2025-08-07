@@ -11,7 +11,8 @@ import seedUsers from './seed/seedUsers';
 import { connectDB } from './database';
 import dotenv from 'dotenv';
 import ErrorHandler from './middleware/ErrorHandler';
-import helmet from 'helmet'
+import helmet from 'helmet'xx
+
 const app = express();
 dotenv.config();
 
