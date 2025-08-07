@@ -12,6 +12,7 @@ import { connectDB } from './database';
 import dotenv from 'dotenv';
 import ErrorHandler from './middleware/ErrorHandler';
 import helmet from 'helmet'
+
 const app = express();
 dotenv.config();
 
