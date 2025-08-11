@@ -11,7 +11,7 @@ import seedUsers from './seed/seedUsers';
 import { connectDB } from './database';
 import dotenv from 'dotenv';
 import ErrorHandler from './middleware/ErrorHandler';
-import helmet from 'helmet'xx
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
@@ -33,12 +33,11 @@ app.use('/api', router);
 app.use('/health', healthRoute);
 
 // Created for assignment-5 but not needed
-app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
-  next(CreateError(404, "Not Found"));
-})
+// app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
+//   next(CreateError(404, "Not Found"));
+// })
 
 // Error handler
-app.use(ErrorHandler.handler);
 
 // Start server
 // app.listen(PORT, () => {
@@ -58,3 +57,5 @@ connectDB()
   .catch((err) => {
     console.error('Failed to connect to DB:', err);
 });
+
+app.use(ErrorHandler.handler);
