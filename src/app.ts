@@ -35,9 +35,6 @@ app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
   next(CreateError(404, "Not Found"));
 })
 
-// Error handler
-app.use(ErrorHandler.handler);
-
 // Start server
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
@@ -56,3 +53,6 @@ connectDB()
   .catch((err) => {
     console.error('Failed to connect to DB:', err);
 });
+
+// Error handler
+app.use(ErrorHandler.handler);
