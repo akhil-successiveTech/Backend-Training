@@ -45,9 +45,6 @@ router.post('/users/admin', AdminCheck, (req, res) => {
 });
 // Only admin can use this router
 // router.post('/users/delete', checkRole);
-// Route for country validation 
-router.post('/countries', validateCountry, addCountry);
-
 
 // Route for country validation 
 router.get('/countries', ValidateGeoLocation.handler, (req, res) => {
