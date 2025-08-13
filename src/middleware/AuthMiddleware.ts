@@ -26,6 +26,17 @@ class AuthMiddleware implements Middleware{
       next();
     });
   }
+
+  public withRole(role: string) {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
+      this.handler(req, res, () => {
+        if (req.user?.role !== role) {
+          return res.status(403).json({ message: 'Access denied: Admins only' });
+        }
+        next();
+      });
+    };
+  }
 }
 
 export default new AuthMiddleware();
