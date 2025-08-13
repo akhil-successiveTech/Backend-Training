@@ -3,8 +3,6 @@ import router from './routes/userRoutes';
 import LoggerMiddleware from './middleware/LoggerMiddleware'; 
 import CustomHeaderMiddleware from './middleware/CustomHeaderMiddleware';
 import RateLimitMiddleware from './middleware/RateLimitMiddleware';
-import { Request, Response, NextFunction } from 'express';
-import CreateError from "http-errors";
 import healthRoute from './routes/healthRoute';
 import { config } from './utils/config';
 import seedUsers from './seed/seedUsers';
@@ -38,7 +36,7 @@ app.use('/health', healthRoute);
 // })
 
 // Error handler
-
+app.use(ErrorHandler.handler);
 // Start server
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
@@ -57,5 +55,3 @@ connectDB()
   .catch((err) => {
     console.error('Failed to connect to DB:', err);
 });
-
-app.use(ErrorHandler.handler);
