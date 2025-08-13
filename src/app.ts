@@ -9,6 +9,7 @@ import seedUsers from './seed/seedUsers';
 import { connectDB } from './database';
 import dotenv from 'dotenv';
 import ErrorHandler from './middleware/ErrorHandler';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
@@ -19,6 +20,7 @@ const RateLimit = new RateLimitMiddleware(3, 30000);
 
 // Middleware setup
 app.use(express.json());
+app.use(helmet());
 app.use(LoggerMiddleware.handler);
 app.use(customHeader.handler);
 app.use(RateLimit.handler);
@@ -32,6 +34,8 @@ app.use('/health', healthRoute);
 // app.use('/error-handler', (req: Request, res: Response, next: NextFunction) => {
 //   next(CreateError(404, "Not Found"));
 // })
+
+// Error handler
 app.use(ErrorHandler.handler);
 // Start server
 // app.listen(PORT, () => {
