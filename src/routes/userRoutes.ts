@@ -9,6 +9,7 @@ import { validateLogin } from "../middleware/LoginMiddleware";
 import { loginUser , signupUser} from "../controllers/AuthController";
 import { validateSignup } from "../middleware/SignupMiddleware";
 import { AdminCheck } from "../middleware/AdminMiddleware";
+
 import ValidateGeoLocation from "../middleware/ValidateGeoLocation";
 
 const router = Router();
@@ -45,7 +46,6 @@ router.post('/users/admin', AdminCheck, (req, res) => {
 });
 // Only admin can use this router
 // router.post('/users/delete', checkRole);
-
 // Route for country validation 
 router.get('/countries', ValidateGeoLocation.handler, (req, res) => {
   return res.status(200).json({message: "Access granted!"});
